@@ -1,5 +1,5 @@
 body{
-	background-color: #191919;
+	color: #191919;
 
 }
 
@@ -7,4 +7,5 @@ button {
 	width: 200px;
 	height: 200px;
 	margin: 100px;
+	color: #E58F65;
 }
