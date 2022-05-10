@@ -56,5 +56,39 @@ function curve (){
 
 }
 
+function noise(){
+
+	if(!audioContext){
+		audioContext = new AudioContext();
+		console.log('no');
+	}
+
+	const noise = audioContext.createBufferSource();
+	const buffer = audioContext.createBuffer(1, 4096, audioContext.sampleRate);
+	let data = buffer.getChannelData(0s);
+
+	for (var i = 0; i < 4096; i++) {
+		data[i] = Math.random();
+	}
+
+	noise.buffer = buffer;
+	noise.loop = true;
+
+	let filter = audioContext.createBiquadFilter();
+	filter.type = 'highpass';
+	filter.frequency.value = 3000;
+
+	noise.connect(filter);
+	filter.connect(audioContext.destination);
+	noise.start(audioContext.currentTime);
+
+	for (var i = 0; i < 10; i++) {
+		filter.frequency.setValueAtTime(10000*Math.random(), audioContext.currentTime + i)
+	}
+		noise.stop(audioContext.currentTime + 10);
+
+}
+
 document.getElementById('buttonSequence').addEventListener("click", sequence);
 document.getElementById('buttonCurve').addEventListener("click", curve);
+document.getElementById('buttonNoise').addEventListener("click", noise);
